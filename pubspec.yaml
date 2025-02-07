@@ -68,6 +68,11 @@ flutter:
     - assets/colors/
     - assets/vehicles/
     - assets/categories/
+    - assets/vegetables/
+    - assets/seasons/
+    - assets/fruits/
+    - assets/foods/
+    - assets/body/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

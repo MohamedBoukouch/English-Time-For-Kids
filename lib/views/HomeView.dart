@@ -1,8 +1,12 @@
 import 'package:english_for_kids/views/alphabets/AlphanetsView.dart';
 import 'package:english_for_kids/views/colors/ColorsView.dart';
+import 'package:english_for_kids/views/fruits/FruitsView.dart';
 import 'package:english_for_kids/views/numbers/NumbersHome.dart';
+import 'package:english_for_kids/views/seasons/SeasonView.dart';
 import 'package:english_for_kids/views/shapes/ShapesView.dart';
+import 'package:english_for_kids/views/vegetables/VegetablesView.dart';
 import 'package:english_for_kids/views/vehicles/VehiclesView.dart';
+import 'package:english_for_kids/views/week_days/WeekDaysView.dart';
 import 'package:flutter/material.dart';
 import 'package:english_for_kids/configs/constant.dart';
 import 'package:get/get.dart';
@@ -37,10 +41,10 @@ class _HomeViewState extends State<HomeView> {
       {"title": "Fruits", "image": "assets/categories/abc.jpg"},
       {"title": "Foods", "image": "assets/categories/abc.jpg"},
       {"title": "Seasons", "image": "assets/categories/abc.jpg"},
+      {"title": "Week Days", "image": "assets/categories/abc.jpg"},
       {"title": "Birds", "image": "assets/categories/abc.jpg"},
       {"title": "Animals", "image": "assets/categories/abc.jpg"},
       {"title": "Body Parts", "image": "assets/categories/abc.jpg"},
-      {"title": "Week Days", "image": "assets/categories/abc.jpg"},
       {"title": "Months", "image": "assets/categories/abc.jpg"},
     ];
 
@@ -100,6 +104,26 @@ class _HomeViewState extends State<HomeView> {
                         Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Vehiclesview()),
+                      );
+                      }else if(categories[index]['title']=='Vegetables'){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VegetablesView()),
+                      );
+                      }else if(categories[index]['title']=='Fruits'){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => FruitsView()),
+                      );
+                      }else if(categories[index]['title']=='Seasons'){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SeasonView()),
+                      );
+                      }else if(categories[index]['title']=='Week Days'){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => WeekDaysView()),
                       );
                       }else{
                         null;
