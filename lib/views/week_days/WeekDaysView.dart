@@ -67,7 +67,7 @@ class _WeekDaysViewState extends State<WeekDaysView> {
                 // Image
                 Image.asset(
                   "assets/colors/color_forme.png",
-                  width: AppConstantes.screenWidth(context) * .40,
+                  width: AppConstantes.screenWidth(context) * .60,
                   color: shape["color"],
                 ),
 

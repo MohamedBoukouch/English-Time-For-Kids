@@ -6,7 +6,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   
   
-  // Lock the orientation to landscape
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.landscapeLeft,
     DeviceOrientation.landscapeRight,
