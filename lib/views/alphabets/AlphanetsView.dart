@@ -1,37 +1,69 @@
+import 'package:english_for_kids/configs/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 
-class AlphanetsView extends StatefulWidget {
-  const AlphanetsView({super.key});
+class AlphabetsView extends StatefulWidget {
+  const AlphabetsView({super.key});
 
   @override
-  _AlphanetsViewState createState() => _AlphanetsViewState();
+  _AlphabetsViewState createState() => _AlphabetsViewState();
 }
 
-class _AlphanetsViewState extends State<AlphanetsView> {
-  // Manually creating the list of alphabets (A to Z)
+class _AlphabetsViewState extends State<AlphabetsView> {
   final List<String> alphabetList = [
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
     "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
   ];
 
-  int _currentIndex = 0;
+  final List<Color> alphabetColors = [
+    Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.purple,
+    Colors.pink, Colors.teal, Colors.cyan, Colors.lime, Colors.indigo,
+    Colors.amber, Colors.brown, Colors.deepOrange, Colors.deepPurple,
+    Colors.lightBlue, Colors.lightGreen, Colors.yellow, Colors.grey,
+    Colors.blueGrey, Colors.redAccent, Colors.blueAccent, Colors.greenAccent,
+    Colors.orangeAccent, Colors.purpleAccent, Colors.pinkAccent, Colors.tealAccent
+  ];
 
-  // Function to move to the next image in the list
+  int _currentIndex = 0;
+  final AudioPlayer _audioPlayer = AudioPlayer(); // Instance du lecteur audio
+
+  @override
+  void initState() {
+    super.initState();
+    _playSound(); // Jouer le son du premier caractère au chargement
+  }
+
+  // Fonction pour jouer le son de l'alphabet actuel
+  Future<void> _playSound() async {
+    String soundPath = "songs/alphabets/${alphabetList[_currentIndex]}.m4a";
+    await _audioPlayer.stop(); // Arrêter le son précédent
+    await _audioPlayer.play(AssetSource(soundPath));
+  }
+
+  // Passer à l'alphabet suivant
   void _nextImage() {
     setState(() {
       if (_currentIndex < alphabetList.length - 1) {
         _currentIndex++;
+        _playSound(); // Jouer le son de la nouvelle lettre
       }
     });
   }
 
-  // Function to move to the previous image in the list
+  // Revenir à l'alphabet précédent
   void _previousImage() {
     setState(() {
       if (_currentIndex > 0) {
         _currentIndex--;
+        _playSound(); // Jouer le son de la nouvelle lettre
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose(); // Libérer les ressources du lecteur audio
+    super.dispose();
   }
 
   @override
@@ -39,47 +71,65 @@ class _AlphanetsViewState extends State<AlphanetsView> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image (tableau.jpg)
+          // Image de fond
           Positioned.fill(
             child: Image.asset(
-              'assets/tableau.jpg',
+              'assets/back/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),
 
-          // Alphabet Image Display (A.png to Z.png)
+          Positioned(
+            top: 40,
+            right: 30,
+            child: IconButton(
+              icon: Image.asset("assets/icons/cancel.png", width: 35),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+
+          // Affichage de l'alphabet
           Center(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                alphabetList[_currentIndex],
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 260,
-                  fontFamily: 'NotoSerif'
+            child: GestureDetector(
+              onTap: _playSound, // Rejouer le son en cliquant sur la lettre
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  alphabetList[_currentIndex],
+                  style: TextStyle(
+                    color: alphabetColors[_currentIndex], // Couleur différente pour chaque lettre
+                    fontWeight: FontWeight.w600,
+                    fontSize: 280,
+                    fontFamily: 'Boogaloo',
+                  ),
                 ),
               ),
             ),
           ),
 
-          // Next Icon Button to change the alphabet (positioned on the right)
+          // Bouton "Précédent"
           Positioned(
-            bottom: 30,
-            right: 30,
+            left: 30,
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
-              icon: const Icon(Icons.arrow_forward, size: 40, color: Colors.white),
-              onPressed: _nextImage, // Trigger the next image on press
+              icon: Image.asset(
+                "assets/icons/back.png",
+                width: AppConstantes.screenWidth(context) * .1,
+              ),
+              onPressed: _previousImage,
             ),
           ),
 
-          // Back Icon Button to go to the previous character (positioned at the center left)
+          // Bouton "Suivant"
           Positioned(
-            bottom: 30,
-            left: 30,
+            right: 30,
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back, size: 40, color: Colors.white),
-              onPressed: _previousImage, // Trigger the previous image on press
+              icon: Image.asset(
+                "assets/icons/next.png",
+                width: AppConstantes.screenWidth(context) * .1,
+              ),
+              onPressed: _nextImage,
             ),
           ),
         ],
