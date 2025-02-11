@@ -10,15 +10,17 @@ class NumberCount extends StatefulWidget {
 }
 
 class _NumberCountState extends State<NumberCount> {
-  final List<String> numberList = List.generate(21, (index) => '$index'); // Numbers from 0 to 20
+  final List<String> numberList = List.generate(31, (index) => '$index'); // Numbers from 0 to 30
 
   final List<Color> numberColors = [
     Colors.red, Colors.blue, Colors.green, Colors.orange, Colors.purple,
     Colors.pink, Colors.teal, Colors.cyan, Colors.lime, Colors.indigo,
     Colors.amber, Colors.brown, Colors.deepOrange, Colors.deepPurple,
     Colors.lightBlue, Colors.lightGreen, Colors.yellow, Colors.grey,
-    Colors.blueGrey, Colors.redAccent, Colors.blueAccent
-  ];
+    Colors.blueGrey, Colors.redAccent, Colors.blueAccent, Colors.black,
+    Colors.lightBlueAccent, Colors.lightGreenAccent, Colors.deepOrangeAccent, Colors.indigoAccent,
+    Colors.tealAccent, Colors.purpleAccent, Colors.orangeAccent, Colors.greenAccent, Colors.brown
+  ]; // At least 31 colors
 
   int _currentIndex = 0;
   final AudioPlayer _audioPlayer = AudioPlayer(); // Audio player instance
@@ -70,7 +72,7 @@ class _NumberCountState extends State<NumberCount> {
           // Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backShapes.jpg',
+              'assets/backgrounds/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -85,18 +87,17 @@ class _NumberCountState extends State<NumberCount> {
             ),
           ),
 
-          // Number Display (with tap to replay sound)
           Center(
             child: GestureDetector(
-              onTap: _playSound, // Replay sound when clicking on the number
+              onTap: _playSound, 
               child: Container(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  numberList[_currentIndex], // Display current number
+                  numberList[_currentIndex], 
                   style: TextStyle(
-                    color: numberColors[_currentIndex], // Unique color per number
+                    color: numberColors[_currentIndex], // Updated to ensure enough colors
                     fontWeight: FontWeight.bold,
-                    fontSize: 250, // Adjust the font size as needed
+                    fontSize: 250, 
                     fontFamily: 'Boogaloo',
                   ),
                 ),

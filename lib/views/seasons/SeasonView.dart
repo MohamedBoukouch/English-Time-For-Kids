@@ -49,7 +49,7 @@ final List<Map<String, dynamic>> shapesList = [
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backShapes.jpg',
+              'assets/backgrounds/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),

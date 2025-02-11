@@ -12,6 +12,7 @@ class Shapesview extends StatefulWidget {
 class _ShapesviewState extends State<Shapesview> {
   int _currentIndex = 0;
   final AudioPlayer _audioPlayer = AudioPlayer();
+  bool _isLoading = true; // Track loading state
 
   final List<Map<String, dynamic>> shapesList = [
     {"image": "speral.png", "title": "Spiral", "color": Colors.grey, "size": 0.25, "sound": "spiral.m4a"},
@@ -33,32 +34,33 @@ class _ShapesviewState extends State<Shapesview> {
   ];
 
   void _playSound(String soundFileName) async {
-    await _audioPlayer.stop(); // Stop any playing sound before starting a new one
+    setState(() => _isLoading = true);
+    await _audioPlayer.stop();
     await _audioPlayer.play(AssetSource("songs/shapes/$soundFileName"));
+    setState(() => _isLoading = false);
   }
 
   void _previousImage() {
-    setState(() {
-      if (_currentIndex > 0) {
+    if (_currentIndex > 0) {
+      setState(() {
         _currentIndex--;
         _playSound(shapesList[_currentIndex]["sound"]);
-      }
-    });
+      });
+    }
   }
 
   void _nextImage() {
-    setState(() {
-      if (_currentIndex < shapesList.length - 1) {
+    if (_currentIndex < shapesList.length - 1) {
+      setState(() {
         _currentIndex++;
         _playSound(shapesList[_currentIndex]["sound"]);
-      }
-    });
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    // Play "Spiral" sound when the page opens
     Future.delayed(Duration.zero, () {
       _playSound(shapesList[0]["sound"]);
     });
@@ -79,7 +81,7 @@ class _ShapesviewState extends State<Shapesview> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backShapes.jpg',
+              'assets/backgrounds/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -94,29 +96,37 @@ class _ShapesviewState extends State<Shapesview> {
           ),
 
           Center(
-            child: GestureDetector(
-              onTap: () => _playSound(shape["sound"]),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/shapes/${shape["image"]}",
-                    width: AppConstantes.screenWidth(context) * shape["size"],
-                    color: shape["color"],
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    shape["title"],
-                    style: TextStyle(
-                      fontSize: 60,
-                      fontWeight: FontWeight.bold,
-                      color: shape["color"],
-                      fontFamily: 'Boogaloo',
+            child: _isLoading
+                ? CircularProgressIndicator()
+                : GestureDetector(
+                    onTap: () => _playSound(shape["sound"]),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/shapes/${shape["image"]}",
+                          width: AppConstantes.screenWidth(context) * shape["size"],
+                          color: shape["color"],
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if (frame == null) {
+                              return CircularProgressIndicator();
+                            }
+                            return child;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          shape["title"],
+                          style: TextStyle(
+                            fontSize: 60,
+                            fontWeight: FontWeight.bold,
+                            color: shape["color"],
+                            fontFamily: 'Boogaloo',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
           ),
 
           Positioned(

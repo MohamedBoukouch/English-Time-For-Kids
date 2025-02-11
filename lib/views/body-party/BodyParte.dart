@@ -9,45 +9,40 @@ class BodyParts extends StatefulWidget {
 }
 
 class _BodyPartsState extends State<BodyParts> {
-
-
   int _currentIndex = 0;
 
 
 
-  void _previousImage() {
-    setState(() {
-      if (_currentIndex > 0) {
-        _currentIndex--;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> shapesList = [
+      {"image": "head.png", "title": "Head", "size": AppConstantes.screenWidth(context) * .28},
+      {"image": "eye.png", "title": "Eye", "size": AppConstantes.screenWidth(context) * .31},
+      {"image": "nose.png", "title": "Nose", "size": AppConstantes.screenWidth(context) * .33},
+      {"image": "mouth.png", "title": "Mouth Fry", "size": AppConstantes.screenWidth(context) * .35},
+      {"image": "leg.png", "title": "Leg Chicken", "size": AppConstantes.screenWidth(context) * .28},
+      {"image": "knee.png", "title": "Knee", "size": AppConstantes.screenWidth(context) * .3},
+      {"image": "hand.png", "title": "Hand", "size": AppConstantes.screenWidth(context) * .24},
+      {"image": "foot.png", "title": "Foot", "size": AppConstantes.screenWidth(context) * .22},
+      {"image": "ear.png", "title": "Ear", "size": AppConstantes.screenWidth(context) * .32},
+      {"image": "arm.png", "title": "Arm", "size": AppConstantes.screenWidth(context) * .26},
+    ];
 
-final List<Map<String, dynamic>> shapesList = [
-  {"image": "head.png", "title": "Head", "size": AppConstantes.screenWidth(context) * .28},
-  {"image": "eye.png", "title": "Eye",  "size": AppConstantes.screenWidth(context) * .31},
-  {"image": "nose.png", "title": "Nose", "size": AppConstantes.screenWidth(context) * .33},
-  {"image": "mouth.png", "title": "Mouth Fry","size": AppConstantes.screenWidth(context) * .35},
-  {"image": "leg.png", "title": "Leg Chicken",  "size": AppConstantes.screenWidth(context) * .28},
-  {"image": "knee.png", "title": "Knee",  "size": AppConstantes.screenWidth(context) * .3},
-  {"image": "hand.png", "title": "Hand",  "size": AppConstantes.screenWidth(context) * .24},
-  {"image": "foot.png", "title": "Foot",  "size": AppConstantes.screenWidth(context) * .22},
-  {"image": "ear.png", "title": "Ear",  "size": AppConstantes.screenWidth(context) * .32},
-  {"image": "arm.png", "title": "Arm",  "size": AppConstantes.screenWidth(context) * .26},
-];
+    void _previousImage() {
+      setState(() {
+        if (_currentIndex > 0) {
+          _currentIndex--;
+        }
+      });
+    }
 
-
-  void _nextImage() {
-    setState(() {
-      if (_currentIndex < shapesList.length - 1) {
-        _currentIndex++;
-      }
-    });
-  }
-
+    void _nextImage() {
+      setState(() {
+        if (_currentIndex < shapesList.length - 1) {
+          _currentIndex++;
+        }
+      });
+    }
     final shape = shapesList[_currentIndex];
 
     return Scaffold(
@@ -57,11 +52,10 @@ final List<Map<String, dynamic>> shapesList = [
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/back/backShapes.jpg',
+                'assets/backgrounds/backShapes.jpg',
                 fit: BoxFit.cover,
               ),
             ),
-        
             Positioned(
               top: 40,
               right: 30,
@@ -70,7 +64,6 @@ final List<Map<String, dynamic>> shapesList = [
                 onPressed: () => Navigator.pop(context),
               ),
             ),
-        
             Center(
               child: Container(
                 padding: EdgeInsets.only(top: 50),
@@ -82,29 +75,34 @@ final List<Map<String, dynamic>> shapesList = [
                       child: Image.asset(
                         "assets/body/${shape["image"]}",
                         width: shape["size"],
+                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                          if (frame == null) {
+                            return CircularProgressIndicator(); // Show loading indicator if image is not loaded yet
+                          }
+                          return child; // Return image once it's loaded
+                        },
                       ),
                     ),
                     const SizedBox(height: 20),
                     Container(
-                      padding: EdgeInsets.only(top:3,bottom: 3,right: 50,left: 50),
+                      padding: EdgeInsets.only(top: 3, bottom: 3, right: 50, left: 50),
                       decoration: BoxDecoration(
                         color: Colors.redAccent,
-                        borderRadius: BorderRadius.all(Radius.circular(50))
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
                       ),
                       child: Text(
-                            shape["title"],
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Boogaloo',
-                            ),
-                          ),
+                        shape["title"],
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Boogaloo',
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-        
             // Bouton "Back" aligné au centre gauche
             Positioned(
               left: 30,
@@ -117,7 +115,6 @@ final List<Map<String, dynamic>> shapesList = [
                 onPressed: _previousImage,
               ),
             ),
-        
             // Bouton "Next" aligné au centre droit
             Positioned(
               right: 30,

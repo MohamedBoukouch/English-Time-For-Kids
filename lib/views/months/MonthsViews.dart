@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../configs/constant.dart';
 
 class Months extends StatefulWidget {
@@ -9,7 +10,9 @@ class Months extends StatefulWidget {
 }
 
 class _MonthsState extends State<Months> {
-  final List<Map<String, dynamic>> colorsList = [
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  final List<Map<String, dynamic>> monthsList = [
     {"title": "January", "color": Colors.red},
     {"title": "February", "color": Colors.blue},
     {"title": "March", "color": Colors.yellow},
@@ -22,37 +25,56 @@ class _MonthsState extends State<Months> {
     {"title": "October", "color": Colors.redAccent},
     {"title": "November", "color": Colors.pinkAccent},
     {"title": "December", "color": Colors.blueGrey},
-
   ];
 
   int _currentIndex = 0;
 
-  void _nextImage() {
+  @override
+  void initState() {
+    super.initState();
+    _playAudio(monthsList[_currentIndex]["title"]); // Play first month on load
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  void _playAudio(String month) async {
+    String audioPath = "songs/months/${month.toLowerCase()}.m4a";
+    await _audioPlayer.stop();
+    await _audioPlayer.play(AssetSource(audioPath));
+  }
+
+  void _nextMonth() {
     setState(() {
-      if (_currentIndex < colorsList.length - 1) {
+      if (_currentIndex < monthsList.length - 1) {
         _currentIndex++;
+        _playAudio(monthsList[_currentIndex]["title"]);
       }
     });
   }
 
-  void _previousImage() {
+  void _previousMonth() {
     setState(() {
       if (_currentIndex > 0) {
         _currentIndex--;
+        _playAudio(monthsList[_currentIndex]["title"]);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final shape = colorsList[_currentIndex];
+    final month = monthsList[_currentIndex];
 
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backShapes.jpg',
+              'assets/backgrounds/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -67,60 +89,58 @@ class _MonthsState extends State<Months> {
           ),
 
           Center(
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // Image
-                Image.asset(
-                  "assets/colors/color_forme.png",
-                  width: AppConstantes.screenWidth(context) * .60,
-                  color: shape["color"],
-                ),
-
-                // Title on top of the image
-                Text(
-                  shape["title"],
-                  style: TextStyle(
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white, // White text for better visibility
-                    fontFamily: 'Boogaloo',
-                    shadows: [
-                      Shadow(
-                        blurRadius: 5,
-                        color: Colors.black.withOpacity(0.5),
-                        offset: Offset(2, 2),
-                      ),
-                    ],
+            child: GestureDetector(
+              onTap: () => _playAudio(month["title"]), // Replay audio on tap
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    "assets/colors/color_forme.png",
+                    width: AppConstantes.screenWidth(context) * .60,
+                    color: month["color"],
                   ),
-                ),
-              ],
+                  Text(
+                    month["title"],
+                    style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontFamily: 'Boogaloo',
+                      shadows: [
+                        Shadow(
+                          blurRadius: 5,
+                          color: Colors.black.withOpacity(0.5),
+                          offset: Offset(2, 2),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
-          // "Back" button (left side)
           Positioned(
             left: 30,
-            top: AppConstantes.screenHeight(context) / 2 - 30, // Center vertically
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/back.png",
                 width: AppConstantes.screenWidth(context) * .1,
               ),
-              onPressed: _previousImage,
+              onPressed: _previousMonth,
             ),
           ),
 
-          // "Next" button (right side)
           Positioned(
             right: 30,
-            top: AppConstantes.screenHeight(context) / 2 - 30, // Center vertically
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/next.png",
                 width: AppConstantes.screenWidth(context) * .1,
               ),
-              onPressed: _nextImage,
+              onPressed: _nextMonth,
             ),
           ),
         ],

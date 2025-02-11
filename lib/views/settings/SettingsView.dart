@@ -85,7 +85,7 @@ class _SettingsViewState extends State<SettingsView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backSettings.jpg',
+              'assets/backgrounds/backSettings.jpg',
               fit: BoxFit.cover,
             ),
           ),

@@ -11,8 +11,8 @@ class FoodView extends StatefulWidget {
 
 class _FoodViewState extends State<FoodView> {
   AudioPlayer _audioPlayer = AudioPlayer(); // Initialize the audio player
-
   int _currentIndex = 0;
+  bool _isLoading = true; // Track loading state
 
   // Function to play the corresponding food song
   void _playFoodSong(String foodName) async {
@@ -25,7 +25,7 @@ class _FoodViewState extends State<FoodView> {
     super.initState();
   }
 
-  
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +45,23 @@ class _FoodViewState extends State<FoodView> {
     ];
 
     void _previousImage() {
-        setState(() {
-          if (_currentIndex > 0) {
-            _currentIndex--;
-            _playFoodSong(shapesList[_currentIndex]["title"].toLowerCase());  // Play previous food's song
-          }
-        });
-      }
+      setState(() {
+        if (_currentIndex > 0) {
+          _currentIndex--;
+          _playFoodSong(shapesList[_currentIndex]["title"].toLowerCase());  // Play previous food's song
+        }
+      });
+    }
 
-      void _nextImage() {
-        setState(() {
-          if (_currentIndex < shapesList.length - 1) {
-            _currentIndex++;
-            _playFoodSong(shapesList[_currentIndex]["title"].toLowerCase());  // Play next food's song
-          }
-        });
-      }
-    final shape = shapesList[_currentIndex];
+    void _nextImage() {
+      setState(() {
+        if (_currentIndex < shapesList.length - 1) {
+          _currentIndex++;
+          _playFoodSong(shapesList[_currentIndex]["title"].toLowerCase());  // Play next food's song
+        }
+      });
+    }
+      final shape = shapesList[_currentIndex];
 
     // Ensure the first song (burger) plays when the page loads
     if (_currentIndex == 0) {
@@ -75,7 +75,7 @@ class _FoodViewState extends State<FoodView> {
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/back/backShapes.jpg',
+                'assets/backgrounds/backShapes.jpg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -102,6 +102,12 @@ class _FoodViewState extends State<FoodView> {
                         child: Image.asset(
                           "assets/foods/${shape["image"]}",
                           width: shape["size"],
+                          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                            if (frame == null) {
+                              return CircularProgressIndicator(); // Show loading indicator if image is not loaded yet
+                            }
+                            return child; // Return image once it's loaded
+                          },
                         ),
                       ),
                     ),

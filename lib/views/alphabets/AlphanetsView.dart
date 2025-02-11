@@ -74,7 +74,7 @@ class _AlphabetsViewState extends State<AlphabetsView> {
           // Image de fond
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backShapes.jpg',
+              'assets/backgrounds/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),

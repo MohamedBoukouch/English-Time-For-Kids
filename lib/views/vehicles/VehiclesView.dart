@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../configs/constant.dart';
 
 class Vehiclesview extends StatefulWidget {
@@ -9,47 +10,72 @@ class Vehiclesview extends StatefulWidget {
 }
 
 class _VehiclesviewState extends State<Vehiclesview> {
-
-
+  final AudioPlayer _audioPlayer = AudioPlayer();
   int _currentIndex = 0;
+  bool _isLoading = true;
 
+  final List<Map<String, dynamic>> vehiclesList = [
+    {"image": "aeroplane.png", "title": "Aeroplane", "size": 0.6},
+    {"image": "ambulance.png", "title": "Ambulance", "size": 0.6},
+    {"image": "bicycle.png", "title": "Bicycle", "size": 0.55},
+    {"image": "boat.png", "title": "Boat", "size": 0.6},
+    {"image": "bus.png", "title": "Bus", "size": 0.65},
+    {"image": "car.png", "title": "Car", "size": 0.7},
+    {"image": "helicopter.png", "title": "Helicopter", "size": 0.45},
+    {"image": "motor_bike.png", "title": "Motor Bike", "size": 0.35},
+    {"image": "parachute.png", "title": "Parachute", "size": 0.27},
+    {"image": "police_car.png", "title": "Police Car", "size": 0.45},
+    {"image": "school_bus.png", "title": "School Bus", "size": 0.55},
+    {"image": "ship.png", "title": "Ship", "size": 0.6},
+    {"image": "train.png", "title": "Train", "size": 0.47},
+    {"image": "truck.png", "title": "Truck", "size": 0.6},
+  ];
+
+ 
+
+  @override
+  void initState() {
+    super.initState();
+    _loadImage();
+    _playSound(vehiclesList[_currentIndex]['title']);
+  }
+
+  void _loadImage() {
+    setState(() => _isLoading = true);
+    final imageProvider = AssetImage("assets/vehicles/${vehiclesList[_currentIndex]['image']}");
+    imageProvider.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener((_, __) {
+        setState(() => _isLoading = false);
+      }),
+    );
+  }
+
+  void _playSound(String title) {
+    _audioPlayer.play(AssetSource('songs/vehicles/$title.m4a'));
+  }
 
   void _previousImage() {
-    setState(() {
-      if (_currentIndex > 0) {
+    if (_currentIndex > 0) {
+      setState(() {
         _currentIndex--;
-      }
-    });
+        _loadImage();
+        _playSound(vehiclesList[_currentIndex]['title']);
+      });
+    }
+  }
+
+  void _nextImage() {
+    if (_currentIndex < vehiclesList.length - 1) {
+      setState(() {
+        _currentIndex++;
+        _loadImage();
+        _playSound(vehiclesList[_currentIndex]['title']);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
-      final List<Map<String, dynamic>> vehiclesList = [
-    {"image": "aeroplane.png", "title": "Aeroplane", "size": AppConstantes.screenWidth(context) * .6},
-    {"image": "ambulance.png", "title": "Ambulance", "size": AppConstantes.screenWidth(context) * .6},
-    {"image": "bicycle.png", "title": "Bicycle", "size": AppConstantes.screenWidth(context) * .55},
-    {"image": "boat.png", "title": "Boat", "size": AppConstantes.screenWidth(context) * .6},
-    {"image": "bus.png", "title": "Bus", "size": AppConstantes.screenWidth(context) * .65},
-    {"image": "car.png", "title": "Car", "size": AppConstantes.screenWidth(context) * .7},
-    {"image": "helicopter.png", "title": "Helicopter", "size": AppConstantes.screenWidth(context) * .45},
-    {"image": "motor_bike.png", "title": "Motor Bike", "size":AppConstantes.screenWidth(context) * .35},
-    {"image": "parachute.png", "title": "Parachute", "size": AppConstantes.screenWidth(context) * .27},
-    {"image": "police_car.png", "title": "Police Car", "size":AppConstantes.screenWidth(context) * .45},
-    {"image": "school_bus.png", "title": "School Bus", "size": AppConstantes.screenWidth(context) * .55},
-    {"image": "ship.png", "title": "Ship", "size": AppConstantes.screenWidth(context) * .6},
-    {"image": "train.png", "title": "Train", "size": AppConstantes.screenWidth(context) * .47},
-    {"image": "truck.png", "title": "Truck", "size": AppConstantes.screenWidth(context) * .6},
-  ];
-
-  void _nextImage() {
-    setState(() {
-      if (_currentIndex < vehiclesList.length - 1) {
-        _currentIndex++;
-      }
-    });
-  }
-
     final shape = vehiclesList[_currentIndex];
 
     return Scaffold(
@@ -57,11 +83,10 @@ class _VehiclesviewState extends State<Vehiclesview> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backVehicles.jpg',
+              'assets/backgrounds/backVehicle.jpg',
               fit: BoxFit.cover,
             ),
           ),
-
           Positioned(
             top: 40,
             right: 30,
@@ -70,10 +95,9 @@ class _VehiclesviewState extends State<Vehiclesview> {
               onPressed: () => Navigator.pop(context),
             ),
           ),
-
           Center(
-            child: Container(
-              padding: EdgeInsets.only(bottom: 30),
+            child: GestureDetector(
+              onTap: () => _playSound(shape["title"]),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -86,29 +110,33 @@ class _VehiclesviewState extends State<Vehiclesview> {
                     child: Text(
                       shape["title"],
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
+                        fontFamily: 'Boogaloo',
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: Image.asset(
-                      "assets/vehicles/${shape["image"]}",
-                      width: shape["size"],
-                    ),
-                  ),
+                  const SizedBox(height: 20),
+                  _isLoading
+                      ? Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: const Center(child: CircularProgressIndicator()),
+                      )
+                      : Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Image.asset(
+                            "assets/vehicles/${shape["image"]}",
+                            width: AppConstantes.screenWidth(context) * shape["size"],
+                          ),
+                        ),
                 ],
               ),
             ),
           ),
-
-          // Bouton "Back" aligné au centre gauche
           Positioned(
             left: 30,
-            top: AppConstantes.screenHeight(context) / 2 - 30, // Centre verticalement
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/back.png",
@@ -117,11 +145,9 @@ class _VehiclesviewState extends State<Vehiclesview> {
               onPressed: _previousImage,
             ),
           ),
-
-          // Bouton "Next" aligné au centre droit
           Positioned(
             right: 30,
-            top: AppConstantes.screenHeight(context) / 2 - 30, // Centre verticalement
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
               icon: Image.asset(
                 "assets/icons/next.png",

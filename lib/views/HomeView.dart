@@ -1,9 +1,11 @@
+import 'package:english_for_kids/ads/adsmanager.dart';
 import 'package:english_for_kids/configs/constant.dart';
 import 'package:english_for_kids/utils/AppFunction.dart';
 import 'package:english_for_kids/views/body-party/BodyParte.dart';
 import 'package:english_for_kids/views/food/FoodView.dart';
 import 'package:english_for_kids/views/months/MonthsViews.dart';
 import 'package:english_for_kids/views/settings/SettingsView.dart';
+import 'package:english_for_kids/views/vehicles/VehiclesView.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:english_for_kids/views/alphabets/AlphanetsView.dart';
@@ -15,6 +17,7 @@ import 'package:english_for_kids/views/shapes/ShapesView.dart';
 import 'package:english_for_kids/views/vegetables/VegetablesView.dart';
 import 'package:english_for_kids/views/week_days/WeekDaysView.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,26 +32,74 @@ class _HomeViewState extends State<HomeView> {
   final PageController _pageController = PageController(viewportFraction: 0.3);
   final AudioPlayer _audioPlayer = AudioPlayer();
   int _currentPage = 0;
+  bool _isLoading = true;
+  bool _isLoadingInterstitial = false;
+  InterstitialAd? _interstitialAd;
 
+
+
+  
   List<Map<String, String>> categories = [
     {"title": "Alphabets", "image": "assets/categories/abc.jpg", "audio": "alphabets.m4a"},
     {"title": "Numbers", "image": "assets/categories/123.jpg", "audio": "numbers.m4a"},
     {"title": "Colors", "image": "assets/categories/colors.jpg", "audio": "colors.m4a"},
-    {"title": "Shapes", "image": "assets/categories/abc.jpg", "audio": "shapes.m4a"},
+    {"title": "Shapes", "image": "assets/categories/shapes.jpg", "audio": "shapes.m4a"},
     {"title": "Vehicles", "image": "assets/categories/vehicles.jpg", "audio": "vehicles.m4a"},
     {"title": "Vegetables", "image": "assets/categories/vegetables.jpg", "audio": "vegetables.m4a"},
-    {"title": "Fruits", "image": "assets/categories/fruits.jpg", "audio": "vegetables.m4a"},
+    {"title": "Fruits", "image": "assets/categories/fruits.jpg", "audio": "fruits.m4a"},
     {"title": "Seasons", "image": "assets/categories/seasons.jpg", "audio": "seasons.m4a"},
     {"title": "Week Days", "image": "assets/categories/week_days.jpg", "audio": "week days.m4a"},
-    {"title": "Months", "image": "assets/categories/abc.jpg", "audio": "months.m4a"},
+    {"title": "Months", "image": "assets/categories/months.jpg", "audio": "months.m4a"},
     {"title": "Foods", "image": "assets/categories/foods.jpg", "audio": "foods.m4a"},
     {"title": "Body Parts", "image": "assets/categories/body_parts.jpg", "audio": "body parts.m4a"},
   ];
 
+
+  //ADS
+  
+  void _createInterstitialAd() {
+    _isLoadingInterstitial = true;
+    InterstitialAd.load(
+      adUnitId: AdsManger.interstitialAdUnit!,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          setState(() {
+            _interstitialAd = ad;
+            _isLoadingInterstitial = false;
+          });
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          setState(() {
+            _isLoadingInterstitial = false;
+          });
+        },
+      ),
+    );
+  }
+    void _showInterstitial() {
+    if (_interstitialAd != null) {
+      _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (ad) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ad.dispose();
+          _createInterstitialAd();
+        },
+      );
+      _interstitialAd!.show();
+      _interstitialAd = null;
+    } else {
+      print("Interstitial Ad is null");
+    }
+  }
   @override
   void initState() {
     super.initState();
     _pageController.addListener(_onPageChanged);
+    _createInterstitialAd();
   }
 
   @override
@@ -75,6 +126,7 @@ class _HomeViewState extends State<HomeView> {
 
   void _navigateToPage(String title) async {
     await _playCategorySound(_currentPage); // Play sound before navigating
+    _showInterstitial();
 
     Widget? destination;
     switch (title) {
@@ -91,7 +143,7 @@ class _HomeViewState extends State<HomeView> {
         destination = ColorsView();
         break;
       case 'Vehicles':
-        destination = VegetablesView(); // Check if this is correct
+        destination = Vehiclesview(); // Check if this is correct
         break;
       case 'Vegetables':
         destination = VegetablesView();
@@ -133,7 +185,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backHome.jpg',
+              'assets/backgrounds/backHome.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -198,6 +250,8 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           child: Stack(
                             children: [
+                              if (_isLoading)
+                                Center(child: CircularProgressIndicator()),
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: Image.asset(

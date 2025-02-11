@@ -122,7 +122,7 @@ class _AdditionPageState extends State<AdditionPage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/back/backShapes.jpg',
+              'assets/backgrounds/backShapes.jpg',
               fit: BoxFit.cover,
             ),
           ),
