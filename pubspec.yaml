@@ -41,10 +41,17 @@ dependencies:
   cached_network_image: ^3.4.1
   google_mobile_ads: ^5.3.1
   shared_preferences: ^2.5.2
+  flutter_launcher_icons: ^0.14.3
+  package_info_plus: ^8.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/logo.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -67,6 +74,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/logo/
     - assets/backgrounds/
     - assets/shapes/
     - assets/icons/
@@ -79,6 +87,7 @@ flutter:
     - assets/foods/
     - assets/body/
     - assets/numbers/
+    
 
     #Songs
 
@@ -94,6 +103,9 @@ flutter:
     - assets/songs/vehicles/
     - assets/songs/days/
     - assets/songs/vegetables/
+    - assets/songs/seasons/
+    - assets/songs/body_parts/
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

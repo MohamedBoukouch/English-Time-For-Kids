@@ -15,26 +15,26 @@ class _FruitsViewState extends State<FruitsView> {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   final List<Map<String, dynamic>> fruitList = [
-    {"image": "apple.png", "title": "Apple", "size": 0.37},
-    {"image": "orange.png", "title": "Orange", "size": 0.4},
-    {"image": "banana.png", "title": "Banana", "size": 0.38},
-    {"image": "kiwi.png", "title": "Kiwi", "size": 0.38},
-    {"image": "jackfruit.png", "title": "Jackfruit", "size": 0.4},
-    {"image": "grapes.png", "title": "Grapes", "size": 0.38},
-    {"image": "figs.png", "title": "Figs", "size": 0.4},
-    {"image": "coconut.png", "title": "Coconut", "size": 0.34},
-    {"image": "cherry.png", "title": "Cherry", "size": 0.26},
-    {"image": "blueberry.png", "title": "Blueberry", "size": 0.45},
-    {"image": "avocado.png", "title": "Avocado", "size": 0.4},
-    {"image": "watermelon.png", "title": "Watermelon", "size": 0.4},
+    {"image": "apple.webp", "title": "Apple", "size": 0.37},
+    {"image": "orange.webp", "title": "Orange", "size": 0.4},
+    {"image": "banana.webp", "title": "Banana", "size": 0.38},
+    {"image": "kiwi.webp", "title": "Kiwi", "size": 0.38},
+    {"image": "jackfruit.webp", "title": "Jackfruit", "size": 0.4},
+    {"image": "grapes.webp", "title": "Grapes", "size": 0.38},
+    {"image": "figs.webp", "title": "Figs", "size": 0.4},
+    {"image": "coconut.webp", "title": "Coconut", "size": 0.34},
+    {"image": "cherry.webp", "title": "Cherry", "size": 0.26},
+    {"image": "blueberry.webp", "title": "Blueberry", "size": 0.45},
+    {"image": "avocado.webp", "title": "Avocado", "size": 0.4},
+    {"image": "watermelon.webp", "title": "Watermelon", "size": 0.4},
     {"image": "strawberry.png", "title": "Strawberry", "size": 0.42},
-    {"image": "raspberry.png", "title": "Raspberry", "size": 0.54},
-    {"image": "pomegranate.png", "title": "Pomegranate", "size": 0.34},
-    {"image": "pineapple.png", "title": "Pineapple", "size": 0.25},
-    {"image": "pear.png", "title": "Pear", "size": 0.36},
-    {"image": "papaya.png", "title": "Papaya", "size": 0.39},
-    {"image": "mango.png", "title": "Mango", "size": 0.48},
-    {"image": "litchi.png", "title": "Litchi", "size": 0.59},
+    {"image": "raspberry.webp", "title": "Raspberry", "size": 0.54},
+    {"image": "pomegranate.webp", "title": "Pomegranate", "size": 0.34},
+    {"image": "pineapple.webp", "title": "Pineapple", "size": 0.25},
+    {"image": "pear.webp", "title": "Pear", "size": 0.36},
+    {"image": "papaya.webp", "title": "Papaya", "size": 0.39},
+    {"image": "mango.webp", "title": "Mango", "size": 0.48},
+    {"image": "litchi.webp", "title": "Litchi", "size": 0.59},
   ];
 
   @override
@@ -94,7 +94,7 @@ class _FruitsViewState extends State<FruitsView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backFerm.jpg',
+              'assets/backgrounds/backFerm.webp',
               fit: BoxFit.cover,
             ),
           ),

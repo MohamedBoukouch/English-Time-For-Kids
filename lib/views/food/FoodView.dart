@@ -31,17 +31,17 @@ class _FoodViewState extends State<FoodView> {
   Widget build(BuildContext context) {
     // Initialize the shapesList inside the build method
     final List<Map<String, dynamic>> shapesList = [
-      {"image": "burger.png", "title": "Burger", "size": AppConstantes.screenWidth(context) * .33},
-      {"image": "french-fry.png", "title": "French Fry", "size": AppConstantes.screenWidth(context) * .33},
-      {"image": "fried-chicken.png", "title": "Fried Chicken", "size": AppConstantes.screenWidth(context) * .43},
-      {"image": "hot-dog.png", "title": "Hot Dog", "size": AppConstantes.screenWidth(context) * .33},
-      {"image": "ice-cream.png", "title": "Ice Cream", "size": AppConstantes.screenWidth(context) * .35},
-      {"image": "milk.png", "title": "Milk", "size": AppConstantes.screenWidth(context) * .17},
-      {"image": "milkshake.png", "title": "Milkshake", "size": AppConstantes.screenWidth(context) * .37},
-      {"image": "noodles.png", "title": "Noodles", "size": AppConstantes.screenWidth(context) * .5},
-      {"image": "pizza.png", "title": "Pizza", "size": AppConstantes.screenWidth(context) * .4},
-      {"image": "popcorn.png", "title": "Popcorn", "size": AppConstantes.screenWidth(context) * .22},
-      {"image": "sandwich.png", "title": "Sandwich", "size": AppConstantes.screenWidth(context) * .5},
+      {"image": "burger.webp", "title": "Burger", "size": AppConstantes.screenWidth(context) * .33},
+      {"image": "french-fry.webp", "title": "French Fry", "size": AppConstantes.screenWidth(context) * .33},
+      {"image": "fried-chicken.webp", "title": "Fried Chicken", "size": AppConstantes.screenWidth(context) * .43},
+      {"image": "hot-dog.webp", "title": "Hot Dog", "size": AppConstantes.screenWidth(context) * .33},
+      {"image": "ice-cream.webp", "title": "Ice Cream", "size": AppConstantes.screenWidth(context) * .35},
+      {"image": "milk.webp", "title": "Milk", "size": AppConstantes.screenWidth(context) * .17},
+      {"image": "milkshake.webp", "title": "Milkshake", "size": AppConstantes.screenWidth(context) * .37},
+      {"image": "noodles.webp", "title": "Noodles", "size": AppConstantes.screenWidth(context) * .5},
+      {"image": "pizza.webp", "title": "Pizza", "size": AppConstantes.screenWidth(context) * .4},
+      {"image": "popcorn.webp", "title": "Popcorn", "size": AppConstantes.screenWidth(context) * .22},
+      {"image": "sandwich.webp", "title": "Sandwich", "size": AppConstantes.screenWidth(context) * .5},
     ];
 
     void _previousImage() {
@@ -75,7 +75,7 @@ class _FoodViewState extends State<FoodView> {
           children: [
             Positioned.fill(
               child: Image.asset(
-                'assets/backgrounds/backShapes.jpg',
+                'assets/backgrounds/backShapes.webp',
                 fit: BoxFit.cover,
               ),
             ),

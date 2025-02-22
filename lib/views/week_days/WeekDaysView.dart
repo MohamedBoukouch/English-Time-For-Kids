@@ -72,7 +72,7 @@ class _WeekDaysViewState extends State<WeekDaysView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backShapes.jpg',
+              'assets/backgrounds/backShapes.webp',
               fit: BoxFit.cover,
             ),
           ),

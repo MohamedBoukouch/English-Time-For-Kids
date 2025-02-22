@@ -15,22 +15,22 @@ class _ShapesviewState extends State<Shapesview> {
   bool _isLoading = true; // Track loading state
 
   final List<Map<String, dynamic>> shapesList = [
-    {"image": "speral.png", "title": "Spiral", "color": Colors.grey, "size": 0.25, "sound": "spiral.m4a"},
+    {"image": "speral.webp", "title": "Spiral", "color": Colors.grey, "size": 0.25, "sound": "spiral.m4a"},
     {"image": "square.webp", "title": "Square", "color": Colors.blueGrey, "size": 0.3, "sound": "square.m4a"},
-    {"image": "star.png", "title": "Star", "color": Colors.amber, "size": 0.3, "sound": "star.m4a"},
-    {"image": "triangle.png", "title": "Triangle", "color": Colors.lime, "size": 0.33, "sound": "triangle.m4a"},
-    {"image": "arrow.png", "title": "Arrow", "color": Colors.red, "size": 0.23, "sound": "arrow.m4a"},
-    {"image": "circle.png", "title": "Circle", "color": Colors.blue, "size": 0.3, "sound": "circle.m4a"},
-    {"image": "crescent.png", "title": "Crescent", "color": Colors.yellow, "size": 0.3, "sound": "crescent.m4a"},
-    {"image": "cube.png", "title": "Cube", "color": Colors.green, "size": 0.3, "sound": "cube.m4a"},
-    {"image": "heart.png", "title": "Heart", "color": Colors.pink, "size": 0.3, "sound": "heart.m4a"},
-    {"image": "hexagon.png", "title": "Hexagon", "color": Colors.orange, "size": 0.25, "sound": "hexagon.m4a"},
-    {"image": "pentagon.png", "title": "Pentagon", "color": Colors.purple, "size": 0.3, "sound": "pentagon.m4a"},
-    {"image": "parallelogram.png", "title": "Parallelogram", "color": Colors.teal, "size": 0.3, "sound": "parallelogram.m4a"},
-    {"image": "oval.png", "title": "Oval", "color": Colors.cyan, "size": 0.3, "sound": "oval.m4a"},
-    {"image": "rectangle.png", "title": "Rectangle", "color": Colors.brown, "size": 0.42, "sound": "rectangle.m4a"},
-    {"image": "rhombus.png", "title": "Rhombus", "color": Colors.indigo, "size": 0.3, "sound": "rhombus.m4a"},
-    {"image": "right_triangle.png", "title": "Right Triangle", "color": Colors.deepPurple, "size": 0.3, "sound": "right_triangle.m4a"},
+    {"image": "star.webp", "title": "Star", "color": Colors.amber, "size": 0.3, "sound": "star.m4a"},
+    {"image": "triangle.webp", "title": "Triangle", "color": Colors.lime, "size": 0.33, "sound": "triangle.m4a"},
+    {"image": "arrow.webp", "title": "Arrow", "color": Colors.red, "size": 0.23, "sound": "arrow.m4a"},
+    {"image": "circle.webp", "title": "Circle", "color": Colors.blue, "size": 0.3, "sound": "circle.m4a"},
+    {"image": "crescent.webp", "title": "Crescent", "color": Colors.yellow, "size": 0.3, "sound": "crescent.m4a"},
+    {"image": "cube.webp", "title": "Cube", "color": Colors.green, "size": 0.3, "sound": "cube.m4a"},
+    {"image": "heart.webp", "title": "Heart", "color": Colors.pink, "size": 0.3, "sound": "heart.m4a"},
+    {"image": "hexagon.webp", "title": "Hexagon", "color": Colors.orange, "size": 0.25, "sound": "hexagon.m4a"},
+    {"image": "pentagon.webp", "title": "Pentagon", "color": Colors.purple, "size": 0.3, "sound": "pentagon.m4a"},
+    {"image": "parallelogram.webp", "title": "Parallelogram", "color": Colors.teal, "size": 0.3, "sound": "parallelogram.m4a"},
+    {"image": "oval.webp", "title": "Oval", "color": Colors.cyan, "size": 0.3, "sound": "oval.m4a"},
+    {"image": "rectangle.webp", "title": "Rectangle", "color": Colors.brown, "size": 0.42, "sound": "rectangle.m4a"},
+    {"image": "rhombus.webp", "title": "Rhombus", "color": Colors.indigo, "size": 0.3, "sound": "rhombus.m4a"},
+    {"image": "right_triangle.webp", "title": "Right Triangle", "color": Colors.deepPurple, "size": 0.3, "sound": "right_triangle.m4a"},
   ];
 
   void _playSound(String soundFileName) async {
@@ -81,7 +81,7 @@ class _ShapesviewState extends State<Shapesview> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backShapes.jpg',
+              'assets/backgrounds/backShapes.webp',
               fit: BoxFit.cover,
             ),
           ),

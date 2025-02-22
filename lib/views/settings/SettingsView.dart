@@ -24,21 +24,24 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   // Function to contact the developer (e.g., via email)
-  void _contactDeveloper() async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: 'developer@example.com', // Replace with your actual email
-      queryParameters: {
-        'subject': 'Support Inquiry',
-      },
-    );
+void _contactDeveloper() async {
+  final Uri emailUri = Uri(
+    scheme: 'mailto',
+    path: 'boukouchmohamed7@gmail.com',
+    queryParameters: {
+      'subject': 'Support Play Store',
+    },
+  );
 
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
-      debugPrint("Could not open email");
+  try {
+    if (!await launchUrl(emailUri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch email app';
     }
+  } catch (e) {
+    debugPrint("Error: $e");
   }
+}
+
 
   // Function to show the Rate Us dialog
   void _showRateDialog() {
@@ -85,7 +88,7 @@ class _SettingsViewState extends State<SettingsView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backSettings.jpg',
+              'assets/backgrounds/backSettings.webp',
               fit: BoxFit.cover,
             ),
           ),

@@ -122,7 +122,7 @@ class _DivisionPageState extends State<DivisionPage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backShapes.jpg',
+              'assets/backgrounds/mathBack.webp',
               fit: BoxFit.cover,
             ),
           ),

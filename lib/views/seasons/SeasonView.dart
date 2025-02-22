@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../configs/constant.dart';
 
 class SeasonView extends StatefulWidget {
@@ -9,47 +10,62 @@ class SeasonView extends StatefulWidget {
 }
 
 class _SeasonViewState extends State<SeasonView> {
-
-
   int _currentIndex = 0;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
+  final List<Map<String, dynamic>> _seasonsList = [
+    {"image": "spring.avif", "title": "Spring", "color": Colors.green, "size": .31, "audio": "Spring.m4a"},
+    {"image": "summer.jpg", "title": "Summer", "color": Colors.yellow, "size": .31, "audio": "Summer.m4a"},
+    {"image": "winter.jpg", "title": "Winter", "color": Colors.blue, "size": .34, "audio": "Winter.m4a"},
+    {"image": "autumn.avif", "title": "Autumn", "color": Colors.brown, "size": .31, "audio": "Autumn.m4a"},
+  ];
 
+  @override
+  void initState() {
+    super.initState();
+    _playSeasonAudio(); // Jouer le son du premier élément au démarrage
+  }
+
+  void _playSeasonAudio() async {
+    String audioPath = "songs/seasons/${_seasonsList[_currentIndex]['audio']}";
+    await _audioPlayer.stop(); // Arrêter l'ancien son avant de jouer le nouveau
+    await _audioPlayer.play(AssetSource(audioPath));
+  }
 
   void _previousImage() {
     setState(() {
       if (_currentIndex > 0) {
         _currentIndex--;
+        _playSeasonAudio(); // Lire le son après changement
+      }
+    });
+  }
+
+  void _nextImage() {
+    setState(() {
+      if (_currentIndex < _seasonsList.length - 1) {
+        _currentIndex++;
+        _playSeasonAudio(); // Lire le son après changement
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-
-final List<Map<String, dynamic>> shapesList = [
-  {"image": "spring.avif", "title": "Spring", "color": Colors.green, "size": AppConstantes.screenWidth(context) * .31},
-  {"image": "summer.jpg", "title": "Summer", "color": Colors.yellow, "size": AppConstantes.screenWidth(context) * .31},
-  {"image": "winter.jpg", "title": "Winter", "color": Colors.blue, "size": AppConstantes.screenWidth(context) * .34},
-  {"image": "autumn.avif", "title": "Autumn", "color": Colors.brown, "size": AppConstantes.screenWidth(context) * .31},
-];
-
-
-  void _nextImage() {
-    setState(() {
-      if (_currentIndex < shapesList.length - 1) {
-        _currentIndex++;
-      }
-    });
+  void dispose() {
+    _audioPlayer.dispose(); // Nettoyage du lecteur audio
+    super.dispose();
   }
 
-    final shape = shapesList[_currentIndex];
+  @override
+  Widget build(BuildContext context) {
+    final season = _seasonsList[_currentIndex];
 
     return Scaffold(
       body: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backShapes.jpg',
+              'assets/backgrounds/backShapes.webp',
               fit: BoxFit.cover,
             ),
           ),
@@ -64,64 +80,53 @@ final List<Map<String, dynamic>> shapesList = [
           ),
 
           Center(
-            child: Container(
-              padding: EdgeInsets.only(top: 50),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: _playSeasonAudio, // Lecture audio au clic sur l'image
+                  child: Container(
                     decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 88, 85, 85), // White border color
-                      width: 4, // Border thickness
-                    ),
-                    borderRadius: BorderRadius.circular(8), // Optional: rounded corners
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Image.asset(
-                        "assets/seasons/${shape["image"]}",
-                        width: shape["size"],
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 88, 85, 85),
+                        width: 4,
                       ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Image.asset(
+                      "assets/seasons/${season["image"]}",
+                      width: AppConstantes.screenWidth(context) * season["size"],
                     ),
                   ),
-                  const SizedBox(height: 0),
-                  Text(
-                        shape["title"],
-                        style: TextStyle(
-                          fontSize: 60,
-                          fontWeight: FontWeight.bold,
-                          color: shape["color"],
-                          fontFamily: 'Boogaloo',
-                        ),
-                      ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  season["title"],
+                  style: TextStyle(
+                    fontSize: 60,
+                    fontWeight: FontWeight.bold,
+                    color: season["color"],
+                    fontFamily: 'Boogaloo',
+                  ),
+                ),
+              ],
             ),
           ),
 
-          // Bouton "Back" aligné au centre gauche
           Positioned(
             left: 30,
-            top: AppConstantes.screenHeight(context) / 2 - 30, // Centre verticalement
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
-              icon: Image.asset(
-                "assets/icons/back.png",
-                width: AppConstantes.screenWidth(context) * .1,
-              ),
+              icon: Image.asset("assets/icons/back.png", width: AppConstantes.screenWidth(context) * .1),
               onPressed: _previousImage,
             ),
           ),
 
-          // Bouton "Next" aligné au centre droit
           Positioned(
             right: 30,
-            top: AppConstantes.screenHeight(context) / 2 - 30, // Centre verticalement
+            top: AppConstantes.screenHeight(context) / 2 - 30,
             child: IconButton(
-              icon: Image.asset(
-                "assets/icons/next.png",
-                width: AppConstantes.screenWidth(context) * .1,
-              ),
+              icon: Image.asset("assets/icons/next.png", width: AppConstantes.screenWidth(context) * .1),
               onPressed: _nextImage,
             ),
           ),

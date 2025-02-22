@@ -64,7 +64,7 @@ class _ColorsViewState extends State<ColorsView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backShapes.jpg',
+              'assets/backgrounds/backShapes.webp',
               fit: BoxFit.cover,
             ),
           ),

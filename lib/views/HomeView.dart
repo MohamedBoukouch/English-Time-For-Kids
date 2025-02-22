@@ -40,18 +40,18 @@ class _HomeViewState extends State<HomeView> {
 
   
   List<Map<String, String>> categories = [
-    {"title": "Alphabets", "image": "assets/categories/abc.jpg", "audio": "alphabets.m4a"},
-    {"title": "Numbers", "image": "assets/categories/123.jpg", "audio": "numbers.m4a"},
-    {"title": "Colors", "image": "assets/categories/colors.jpg", "audio": "colors.m4a"},
-    {"title": "Shapes", "image": "assets/categories/shapes.jpg", "audio": "shapes.m4a"},
-    {"title": "Vehicles", "image": "assets/categories/vehicles.jpg", "audio": "vehicles.m4a"},
-    {"title": "Vegetables", "image": "assets/categories/vegetables.jpg", "audio": "vegetables.m4a"},
-    {"title": "Fruits", "image": "assets/categories/fruits.jpg", "audio": "fruits.m4a"},
-    {"title": "Seasons", "image": "assets/categories/seasons.jpg", "audio": "seasons.m4a"},
-    {"title": "Week Days", "image": "assets/categories/week_days.jpg", "audio": "week days.m4a"},
-    {"title": "Months", "image": "assets/categories/months.jpg", "audio": "months.m4a"},
-    {"title": "Foods", "image": "assets/categories/foods.jpg", "audio": "foods.m4a"},
-    {"title": "Body Parts", "image": "assets/categories/body_parts.jpg", "audio": "body parts.m4a"},
+    {"title": "Alphabets", "image": "assets/categories/abc.webp", "audio": "alphabets.m4a"},
+    {"title": "Numbers", "image": "assets/categories/123.webp", "audio": "numbers.m4a"},
+    {"title": "Colors", "image": "assets/categories/colors.webp", "audio": "colors.m4a"},
+    {"title": "Shapes", "image": "assets/categories/shapes.webp", "audio": "shapes.m4a"},
+    {"title": "Vehicles", "image": "assets/categories/vehicles.webp", "audio": "vehicles.m4a"},
+    {"title": "Vegetables", "image": "assets/categories/vegetables.webp", "audio": "vegetables.m4a"},
+    {"title": "Fruits", "image": "assets/categories/fruits.webp", "audio": "fruits.m4a"},
+    {"title": "Seasons", "image": "assets/categories/seasons.webp", "audio": "seasons.m4a"},
+    {"title": "Week Days", "image": "assets/categories/week_days.webp", "audio": "week days.m4a"},
+    {"title": "Months", "image": "assets/categories/months.webp", "audio": "months.m4a"},
+    {"title": "Foods", "image": "assets/categories/foods.webp", "audio": "foods.m4a"},
+    {"title": "Body Parts", "image": "assets/categories/body_parts.webp", "audio": "body parts.m4a"},
   ];
 
 
@@ -185,7 +185,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backHome.jpg',
+              'assets/backgrounds/backHome.webp',
               fit: BoxFit.cover,
             ),
           ),
@@ -276,10 +276,11 @@ class _HomeViewState extends State<HomeView> {
                                     child: Center(
                                       child: Text(
                                         categories[index]['title']!,
-                                        style: const TextStyle(
-                                          fontSize: 18,
+                                        style:  TextStyle(
+                                          fontSize: _currentPage==index?25:20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
+                                          fontFamily: 'Boogaloo'
                                         ),
                                       ),
                                     ),

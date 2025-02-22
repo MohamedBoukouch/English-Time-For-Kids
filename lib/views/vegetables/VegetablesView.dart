@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:audioplayers/audioplayers.dart';
 import '../../configs/constant.dart';
 
 class VegetablesView extends StatefulWidget {
@@ -11,32 +12,57 @@ class VegetablesView extends StatefulWidget {
 class _VegetablesViewState extends State<VegetablesView> {
   int _currentIndex = 0;
   bool _isLoading = false;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   final List<Map<String, dynamic>> shapesList = [
-    {"image": "tomato.png", "title": "Tomato", "size": 0.32},
-    {"image": "cucumber.png", "title": "Pumpkin", "size": 0.4},
-    {"image": "beetroot.png", "title": "Beetroot", "size": 0.37},
-    {"image": "broccoli.png", "title": "Broccoli", "size": 0.3},
-    {"image": "capsicum.png", "title": "Capsicum", "size": 0.45},
-    {"image": "carrot.png", "title": "Carrot", "size": 0.5},
-    {"image": "cauliflower.png", "title": "Cauliflower", "size": 0.3},
-    {"image": "eggplant.png", "title": "Eggplant", "size": 0.35},
-    {"image": "garlic.png", "title": "Garlic", "size": 0.38},
-    {"image": "onion.png", "title": "Onion", "size": 0.33},
-    {"image": "pepper.png", "title": "Pepper", "size": 0.38},
-    {"image": "potato.png", "title": "Potato", "size": 0.38},
-    {"image": "pumpkin.png", "title": "Pumpkin", "size": 0.46},
+    {"image": "tomato.webp", "title": "Tomato", "size": 0.32, "audio": "Tomato.m4a"},
+    {"image": "cucumber.webp", "title": "Pumpkin", "size": 0.4, "audio": "Pumpkin.m4a"},
+    {"image": "beetroot.webp", "title": "Beetroot", "size": 0.37, "audio": "Beetroot.m4a"},
+    {"image": "broccoli.webp", "title": "Broccoli", "size": 0.3, "audio": "Broccoli.m4a"},
+    {"image": "capsicum.webp", "title": "Capsicum", "size": 0.45, "audio": "Capsicum.m4a"},
+    {"image": "carrot.webp", "title": "Carrot", "size": 0.5, "audio": "Carrot.m4a"},
+    {"image": "cauliflower.webp", "title": "Cauliflower", "size": 0.3, "audio": "Cauliflower.m4a"},
+    {"image": "eggplant.webp", "title": "Eggplant", "size": 0.35, "audio": "Eggplant.m4a"},
+    {"image": "garlic.webp", "title": "Garlic", "size": 0.38, "audio": "Garlic.m4a"},
+    {"image": "onion.webp", "title": "Onion", "size": 0.33, "audio": "Onion.m4a"},
+    {"image": "pepper.webp", "title": "Pepper", "size": 0.38, "audio": "Pepper.m4a"},
+    {"image": "potato.webp", "title": "Potato", "size": 0.38, "audio": "Potato.m4a"},
+    {"image": "pumpkin.webp", "title": "Pumpkin", "size": 0.46, "audio": "Pumpkin.m4a"},
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _playCurrentAudio(); // Play the default vegetable sound when the page starts
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose();
+    super.dispose();
+  }
+
+  void _playCurrentAudio() async {
+    String audioPath = "songs/vegetables/${shapesList[_currentIndex]['audio']}";
+    await _audioPlayer.stop();
+    await _audioPlayer.play(AssetSource(audioPath));
+  }
 
   void _previousImage() {
     setState(() {
-      if (_currentIndex > 0) _currentIndex--;
+      if (_currentIndex > 0) {
+        _currentIndex--;
+        _playCurrentAudio(); // Play sound when changing vegetable
+      }
     });
   }
 
   void _nextImage() {
     setState(() {
-      if (_currentIndex < shapesList.length - 1) _currentIndex++;
+      if (_currentIndex < shapesList.length - 1) {
+        _currentIndex++;
+        _playCurrentAudio(); // Play sound when changing vegetable
+      }
     });
   }
 
@@ -50,7 +76,7 @@ class _VegetablesViewState extends State<VegetablesView> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backFerm.jpg',
+              'assets/backgrounds/backFerm.webp',
               fit: BoxFit.cover,
             ),
           ),
@@ -71,9 +97,12 @@ class _VegetablesViewState extends State<VegetablesView> {
                         padding: EdgeInsets.only(bottom: 10),
                         child: CircularProgressIndicator(),
                       )
-                    : Image.asset(
-                        "assets/vegetables/${shape["image"]}",
-                        width: imageSize,
+                    : GestureDetector(
+                        onTap: _playCurrentAudio, // Play sound when tapping on image
+                        child: Image.asset(
+                          "assets/vegetables/${shape["image"]}",
+                          width: imageSize,
+                        ),
                       ),
                 const SizedBox(height: 10),
                 Text(

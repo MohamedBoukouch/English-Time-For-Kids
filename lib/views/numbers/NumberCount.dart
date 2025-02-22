@@ -72,7 +72,7 @@ class _NumberCountState extends State<NumberCount> {
           // Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/backgrounds/backShapes.jpg',
+              'assets/backgrounds/mathBack.webp',
               fit: BoxFit.cover,
             ),
           ),
